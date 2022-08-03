@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import pygame
+import time
 from random import randint
 
 from utils import *
@@ -16,6 +17,8 @@ COIN = pygame.image.load("imgs/coin.png")
 
 BG = pygame.image.load("imgs/bg.png")
 BG_OTHER = pygame.image.load("imgs/bg_other.png")
+
+GAME_OVER = pygame.image.load("imgs/game_over.png")
 
 # Define width & height for the app:
 WIDTH, HEIGHT = BG.get_width(), BG.get_height()
@@ -40,6 +43,27 @@ def rand_coords(padding:int=50):
     x = randint(padding, WIDTH - padding)
     y = randint(padding, WIDTH - padding)
     return [x, y]
+
+def end_game(coin_count):
+    WIN.blit(GAME_OVER, (0, 0))
+
+    font = pygame.font.Font('JetBrainsMono-Regular.ttf', 40)
+    text = font.render(f"{coin_count}", True, (255, 255, 255))
+    textRect = text.get_rect()
+    WIN.blit(text, (315, 585))
+
+    pygame.display.update()
+    time.sleep(0.1)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print("[EXITING]\tUser exited the game")
+                break
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE] | keys[pygame.K_RETURN]:
+            print("[EXITING]\tUser left the game.")
+            break
 
 def main():
     FPS = 60
@@ -76,7 +100,9 @@ def main():
 
         if keys[pygame.K_ESCAPE]:
             print("[EXITING]\tUser used ESC to leave the program")
+            end_game(coin_count)
             run = False
+            continue
 
         # Check for warping:
         if images[2][1][0] < 0 - images[2][0].get_width():
