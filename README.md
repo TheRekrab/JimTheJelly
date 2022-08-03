@@ -6,7 +6,7 @@ My first attempt at a PyGame game in Python.
 
 To run the script, simply use Python:
 ```
-$ python game.py
+$ ./jim-the-jelly
 ```
 
 If you run the script through the command line, you will see updates about the game, such as when it starts, the FPS, and when/why it closes.
